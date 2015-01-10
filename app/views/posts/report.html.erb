@@ -1,0 +1,16 @@
+<% if @report_error == 1 %>
+    <h4> <span style="color: #cc0000;"> Error: Invalid input for the number of days</span></h4>   <br/> <br/> <br/> <br/>
+<% end %>
+
+
+<%= form_tag "/posts/generate_report"  do %>
+
+
+
+    <%= label_tag :no_of_days, "View reports from past how many days? "  %>
+    <%= text_field_tag :no_of_days  %>
+    <br>    <br/><br/>
+    <%= submit_tag "Generate Report" %>   <input type="Reset" value="Reset">
+
+
+<% end %>

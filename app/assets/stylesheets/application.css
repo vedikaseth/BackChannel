@@ -1,0 +1,139 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+ #body{
+     margin: 0px;
+     height: 100%;
+
+ }
+
+#header a {
+   color:  #ffffff;
+}
+
+#header a:hover {
+    color:  black;
+    background-color: transparent;
+}
+
+#footer a {
+    color:  #ffffff;
+}
+
+#footer a:hover {
+    color:  black;
+    background-color: transparent;
+}
+
+a.contentLink {
+    color:  black;
+    background-color: transparent;
+}
+
+a:hover.contentLink {
+    color:  #cc0000;
+    background-color: transparent;
+}
+a:visited.contentLink {
+    color:  black;
+    background-color: transparent;
+}
+a:visited:hover.contentLink {
+    color:  #cc0000;
+    background-color: transparent;
+}
+#header {
+    background-color: #cc0000;
+    height: 80px;
+    color: #ffffff;
+}
+
+#footer {
+    background-color: #cc0000;
+    height: 80px  ;
+    color: #ffffff;
+}
+
+
+
+#content {
+   height: 531px;
+}
+
+.scrollable {
+    height: 80%;
+
+    overflow-y: auto;
+}
+
+#error {
+    color: red;
+}
+
+#notice1 {
+    color: green;
+}
+#notice {
+    color: green;
+}
+.postCommentUser {
+    color: #cc0000;
+}
+
+.comment tbody {
+    display: table-row-group;
+    vertical-align: top;
+    border-color: inherit;
+}
+table.comment{
+    border: 0px;
+
+}
+
+.voteImage{
+    width: 40px;
+    height: 40px;
+}
+.homeImage{
+    width: 30px;
+    height: 30px;
+}
+
+.logoutImage {
+    width: 80px;
+    height: 30px;
+}
+
+
+table.comment tbody tr { height: 45px }
+table.comment tbody tr:nth-child(even) { background-color: #ffffff; }
+table.comment tbody tr:nth-child(odd)  { background-color: wheat; }
+
+.postText {
+    background-color: wheat;
+    width:730px;
+    height: 50px
+
+}
+
+.postTextSearch{
+    background-color: wheat;
+    width:650px;
+    height: 50px
+
+}
+
+table.category tbody th {background-color: #E9967A;height: 30px}
+table.category tbody tr:nth-child(even) { background-color: #ffffff;height: 30px }
+table.category tbody tr:nth-child(odd)  { background-color: wheat;height: 30px }
+

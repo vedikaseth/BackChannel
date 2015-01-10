@@ -1,0 +1,7 @@
+<p id="notice"><%= flash[:notice] %> </p>
+<p id="error"><%= flash[:error] %></p>
+<h1>New Category</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', categories_path, :class => 'contentLink' %>

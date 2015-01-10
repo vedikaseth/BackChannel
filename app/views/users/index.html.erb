@@ -1,0 +1,156 @@
+<p id="notice"><%= flash[:notice] %></p>
+<h2> STUDENTS</h2>
+
+<table class ='category'>
+
+  <tr>
+
+    <th style="width: 200px">Username</th>
+
+    <th style="width: 200px">Fname</th>
+
+    <th style="width: 200px">Lname</th>
+
+    <th style="width: 110px">Actions</th>
+
+  </tr>
+
+
+
+  <% @users.each do |user| %>
+
+
+
+      <% if (user.userType == "student") %>
+
+          <tr>
+
+            <td><%= user.userName %></td>
+
+            <td><%= user.fname %></td>
+
+            <td><%= user.lname %></td>
+
+            <td>
+
+              <%= form_tag "/users/update"  do %>
+
+                  <%= hidden_field_tag :user_id, user.id%>
+                  <%= hidden_field_tag :user_type , 'admin' %>
+                  <%= submit_tag "Make Admin", data: { confirm: 'Are you sure you want to make this user an admin?' } %>
+              <% end %>
+              <%= form_tag "/users/destroy"  do %>
+
+                  <%= hidden_field_tag :id, user.id%>
+                  <%= submit_tag "Destroy", data: { confirm: 'Are you sure you want to delete this user?' } %>
+              <% end %>
+          </tr>
+
+      <% end %>
+
+  <% end %>
+
+</table>
+
+
+
+<br />
+
+<h2> ADMINS</h2>
+
+<table class ='category'>
+
+  <tr>
+
+    <th style="width: 200px">Username</th>
+
+    <th style="width: 200px">Fname</th>
+
+    <th style="width: 200px">Lname</th>
+
+    <th style="width: 110px">Actions</th>
+
+  </tr>
+
+  <% @users.each do |user| %>
+
+      <% if (user.userType == "admin") %>
+
+          <tr>
+
+            <td><%= user.userName %></td>
+
+            <td><%= user.fname %></td>
+
+            <td><%= user.lname %></td>
+
+            <td>
+
+              <%  if (session[:userId]== user.id )%>
+                  <%= form_tag "/users/destroy"  do %>
+
+                      <%= hidden_field_tag :id, user.id%>
+                      <%= submit_tag "Destroy", data: { confirm: 'Are you sure you want to delete yourself?' } %>
+                  <% end %>
+              <% end %>
+              <%  if (session[:userType]== "super" )%>
+                  <%= form_tag "/users/update"  do %>
+
+                      <%= hidden_field_tag :user_id, user.id%>
+                      <%= hidden_field_tag :user_type , 'student' %>
+                      <%= submit_tag "Revoke Admin" %>
+                  <% end %>   <% end %>
+            </td>
+          </tr>
+
+      <% end %>
+
+  <% end %>
+
+
+</table>
+
+<br />
+
+
+
+
+
+<h2> SUPER ADMIN</h2>
+
+<table class ='category'>
+
+  <tr>
+
+    <th style="width: 200px">Username</th>
+
+    <th style="width: 200px">Fname</th>
+
+    <th style="width: 200px">Lname</th>
+
+    <th style="width: 110px">Actions</th>
+
+  </tr>
+  <% @users.each do |user| %>
+
+
+
+      <% if (user.userType == "super") %>
+
+
+
+          <tr>
+
+            <td><%= user.userName %></td>
+
+            <td><%= user.fname %></td>
+
+            <td><%= user.lname %></td>
+
+            </tr>
+
+      <% end %>
+
+  <% end %>
+
+</table>

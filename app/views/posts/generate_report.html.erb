@@ -1,0 +1,28 @@
+<h2>Report</h2>
+
+<table class ='category'>
+
+  <tr > <th> User Name </th>
+    <th> Post </th>
+    <th>Category </th>
+    <th> Created at  </th>
+    <th> No of Votes  </th></tr>
+
+  <% @post_array.each do |a|%>
+      <tr> <td><% if User.exists? (a.user_id) %>
+            <% user = User.find (a.user_id) %>
+            <%= user.fname%> <% else %> Anonymous <% end %> </td>
+        <td> <%= a.postText %> </td>
+        <td>
+          <% if Category.exists?(a.category_id) %>
+              <%=  Category.find(a.category_id).categoryName%></td>
+          <% else %>
+              Unknown Category
+          <% end %>
+
+        <td> <%=  a.created_at.to_date %> </td>
+        <td> <%= PostVote.find_all_by_post_id(a.id).length %> </td> </tr>
+  <% end%>
+</table>
+<br/> <br/>
+<%= link_to 'Back', {:controller => 'posts', :action => 'report'} , :class => "contentLink" %>

@@ -1,0 +1,62 @@
+<%= link_to 'Login', {:controller => 'login', :action => 'login'},:class => "contentLink" %>
+ <br><br>
+<b><span class="postCommentUser">
+    <% if User.exists?(@post.user_id) %>
+  <% postUser =  User.find(@post.user_id) %>
+      <%= postUser.fname %> <%= postUser.lname %>
+       <% else %>
+  Anonymous
+     <%end %>
+  </span>posted :</b> <br>
+<div class="postTextSearch"><br><%= @post.postText %><br></div>
+<b>At</b> <%= @post.created_at.to_date  %>  <br>
+<b>In Category :</b>
+<% if Category.exists?(@post.category_id) %>
+
+    <%= Category.find(@post.category_id).categoryName %>
+<% else %>
+    Unknown Category
+<% end %>
+<br>
+<b>With Tags :</b>
+<% @tags = Tag.find_all_by_post_id (@post.id) %>
+<% @tags.each do |tag| %>
+    <%= tag.tagText %>
+<% end %><br>
+<b>Votes :</b>
+<%= PostVote.find_all_by_post_id(@post.id).length %> <br>
+
+
+<% commentA = Comment.find_all_by_post_id(@post.id)%>
+<br><b>Comments :  </b> <br> <br>
+<% if commentA.length == 0%>
+  No Comments
+<% else %>
+<table class="comment" cellpadding="0" cellspacing="0" border="0" >
+  <% commentA.each do |comment| %>
+
+      <tr>
+        <td style="width:450px;word-wrap: break-word; word-break: break-all">
+          <b>At <%= comment.created_at.to_date %> </b><br>
+          <%= comment.commentText %>
+        </td>
+        <td> <b> by<span class="postCommentUser">
+                 <% if User.exists?(comment.user_id) %>
+              <% commentUser = User.find(comment.user_id) %>
+              <%= commentUser.fname %> <%= commentUser.lname %>
+                   <% else %>
+                        Anonymous
+                   <%end %>
+            </span></b>
+        </td>
+        <td>&nbsp;<b>Votes :</b> <%= CommentVote.find_all_by_post_id_and_comment_id(@post.id,comment.id).length %> &nbsp; </td>
+
+        </tr>
+
+
+  <%end %>
+
+</table>
+    <br><br>
+<%end %>
+

@@ -1,0 +1,37 @@
+<%= link_to 'Login', {:controller => 'login', :action => 'login'},:class => "contentLink" %>
+<h2>Posts</h2>
+<p id="notice"><%= flash[:notice] %> </p>
+<p id="error"><%= flash[:error] %></p>
+<br/>
+<div class="scrollable" style=" width : 45%; ">
+  <table style=" width : 100%; " >
+
+    <% if @postHash.empty? %>
+        No posts in this criteria. Try searching with different keywords
+    <% else %>
+        <tr style="width: 100%;background-color: #E9967A"><td style="height: 30px">Post</td></tr>
+        <tr><td>
+          <table style=" width : 100%">
+            <% @postHash.each do |post, votes| %>
+                <tr>
+                  <td style=" width : 80%; height: 40px" ><%= truncate(post.postText , length: 100, separator: ' ')%></td>
+                  <td> Votes <%= votes %></td>
+                  <td>
+                    <%= form_tag "/posts/search_post_show"  do %>
+
+                        <%= hidden_field_tag :id, post.id%>
+
+                        <%= submit_tag "Show" %>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+          </table>
+        </td></tr>
+    <% end %>
+
+
+
+
+  </table>
+</div >

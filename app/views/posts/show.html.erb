@@ -1,0 +1,174 @@
+<% if session[:userName].nil? %>
+    <%= link_to 'Login', {:controller => 'login', :action => 'login'},:class => "contentLink" %>
+<% end %>
+
+<p id="notice" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
+
+
+<b><span class="postCommentUser">
+    <% if User.exists?(@post.user_id) %>
+  <% postUser =  User.find(@post.user_id) %>
+      <%= postUser.fname %> <%= postUser.lname %>
+       <% else %>
+  Anonymous
+     <%end %>
+  </span>posted :</b> <br>
+<div class="postText"><br><%= @post.postText %><br></div>
+<b>At</b> <%= @post.created_at.to_date  %>  <br>
+<b>In Category :</b>
+<% if Category.exists?(@post.category_id) %>
+
+<%= Category.find(@post.category_id).categoryName %>
+    <% else %>
+    Unknown Category
+    <% end %>
+    <br>
+<b>With Tags :</b>
+<% @tags = Tag.find_all_by_post_id (@post.id) %>
+<% @tags.each do |tag| %>
+    <%= tag.tagText %> ,
+<% end %><br>
+<b>Votes :</b>
+<%= PostVote.find_all_by_post_id(@post.id).length %>   <br>
+<% if !session[:userName].nil? %>
+<table>  <tr>
+  <% if @post.user_id == session[:userId] or (session[:userType]) != 'student'%>
+        <% if @post.user_id == session[:userId] %>
+        <td>
+          <%= form_tag "/posts/edit" do %>
+              <%= hidden_field_tag :id , @post.id %>
+              <%= image_submit_tag "edit.jpg", :class => 'voteImage'  %>
+          <% end %>
+        </td>
+        <% end %>
+        <td>
+          <%= form_tag "/posts/destroy"   do %>
+              <%= hidden_field_tag :id , @post.id %>
+              <%= image_submit_tag "delete.jpg", :class => 'voteImage',data: { confirm: 'Are you sure you want to delete this post ?' } %>
+          <% end %>
+        </td>
+  <% end %>
+  <% if @post.user_id != session[:userId]  %>
+        <% if PostVote.find_by_post_id_and_user_id(@post.id,session[:userId]).nil?%>
+            <td>
+            <%= form_tag "/post_votes/create" do%>
+                <%= hidden_field_tag :user_id, session[:userId] %>
+                <%= hidden_field_tag :post_id, @post.id %>
+                <%= image_submit_tag "thumbsup.jpg", :class => 'voteImage' %>
+            <% end %>
+            </td>
+        <% else %>
+            <td>
+            <%= form_tag "/post_votes/destroy"   do %>
+                <%= hidden_field_tag :user_id, session[:userId]%>
+                <%= hidden_field_tag :post_id , @post.id %>
+                <%= image_submit_tag "thumbsdown.jpg", :class => 'voteImage' %>
+            <% end %>
+              <td>
+        <% end %>
+
+
+
+  <% end %>
+  </tr></table>
+
+<%@comment = Comment.new  %>
+<%= form_for(@comment) do |f| %>
+
+     <b> <%= f.label :Comment %></b><br />
+      <%= f.text_area :commentText, :cols => 50, :rows =>3 %>  <br>
+      <%= f.hidden_field :user_id, :value => session[:userId] %>
+      <%= f.hidden_field :post_id, :value => @post.id %>
+      <%= f.submit "Submit" %>
+
+<% end %>
+   <% end %>
+<% commentA = Comment.find_all_by_post_id(@post.id)%>
+<br><b>Comments :  </b> <br> <br>
+<% if commentA.length == 0%>
+    No Comments
+<% else %>
+<table class="comment" cellpadding="0" cellspacing="0" border="0" >
+          <% commentA.each do |comment| %>
+
+          <tr>
+            <td style="width:450px;word-wrap: break-word; word-break: break-all">
+              <b>At <%= comment.created_at.to_date %> </b><br>
+              <%= comment.commentText %>
+            </td>
+            <td> <b> by<span class="postCommentUser">
+                 <% if User.exists?(comment.user_id) %>
+              <% commentUser = User.find(comment.user_id) %>
+              <%= commentUser.fname %> <%= commentUser.lname %>
+                   <% else %>
+                        Anonymous
+                   <%end %>
+            </span></b>
+            </td>
+            <td>&nbsp;<b>Votes :</b> <%= CommentVote.find_all_by_post_id_and_comment_id(@post.id,comment.id).length %> &nbsp; </td>
+            <% if !session[:userName].nil? %>
+            <td>
+
+              <table><tr>
+              <% if comment.user_id == session[:userId] or (session[:userType]) != 'student' %>
+                  <% if comment.user_id == session[:userId] %>
+                  <td>
+                  <%= form_tag "/comments/edit" do %>
+                      <%= hidden_field_tag :id , comment.id %>
+                      <%= hidden_field_tag :post_id , @post.id %>
+                      <%= image_submit_tag "edit.jpg", :class => 'voteImage'  %>
+                  <% end %>
+                  </td>
+                  <% end %>
+
+                  <td>
+                  <%= form_tag "/comments/destroy"  do %>
+                      <%= hidden_field_tag :id, comment.id %>
+                      <%= hidden_field_tag :post_id , @post.id %>
+                      <%= image_submit_tag "delete.jpg", :class => 'voteImage' %>
+                  <% end %>
+                   </td>
+                  <% end %>
+                  <% if comment.user_id != session[:userId]  %>
+                  <% if CommentVote.find_by_post_id_and_user_id_and_comment_id(@post.id,session[:userId],comment.id).nil?%>
+                  <td>
+                      <%= form_tag "/comment_votes/create" do%>
+                          <%= hidden_field_tag :user_id, session[:userId]%>
+                          <%= hidden_field_tag :post_id , @post.id %>
+                          <%= hidden_field_tag :comment_id , comment.id %>
+                           <%= image_submit_tag "thumbsup.jpg", :class => 'voteImage' %>
+                          <% end %>
+                  </td>
+                   <% else %>
+                   <td>
+                          <%= form_tag "/comment_votes/destroy"  do %>
+                              <%= hidden_field_tag :user_id, session[:userId]%>
+                              <%= hidden_field_tag :post_id , @post.id %>
+                              <%= hidden_field_tag :comment_id , comment.id %>
+                          <%= image_submit_tag "thumbsdown.jpg", :class => 'voteImage' %>
+                          <% end %>
+                   </td>
+                   <% end %>
+              <% end %>
+            </tr></table>
+
+
+            </td>
+            <% end %>
+          </tr>
+          <%end %>
+
+        </table>
+
+<% end %>
+
+  <br> <br>
+
+
+<%= form_tag "/posts/index"  do %>
+    <% if !session[:search_by].nil? %>
+    <%= hidden_field_tag :search_by, session[:search_by]%>
+    <%= hidden_field_tag :search_text, session[:search_text]%>
+    <% end %>
+    <%= submit_tag "back" %>
+<% end %>

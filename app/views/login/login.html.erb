@@ -1,0 +1,26 @@
+  <p id="error"><%= flash[:error] %></p>
+  <p id="notice"><%= flash[:notice] %></p>
+  <% if session[:userName].nil?    %>
+      <h3>Login :</h3>
+      <%= form_tag  do %>
+          <table>
+            <tr>
+              <td style="width: 30px"><label for="userName">Name:</label>  </td>
+              <td><%= text_field_tag :userName, params[:userName]   %>   </td>
+            </tr>
+            <tr>
+              <td><label for="password">Password:</label>  </td>
+              <td> <%= password_field_tag :password, params[:password]   %> </td>
+            </tr>
+          </table>  <br>
+          <%= submit_tag "Login"  %>   <input type="Reset" value="Reset">
+        <% end %>
+       <br>
+      <%= form_tag  do %>
+
+          <label for="Register">New User?</label>
+          <%= link_to 'Register Here', {:controller => 'users', :action => 'new'}, :class => 'contentLink' %>
+
+      <% end %>
+
+  <% end %>

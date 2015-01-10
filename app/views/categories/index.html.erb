@@ -1,0 +1,24 @@
+<p id="notice"><%= flash[:notice] %> </p>
+<p id="error"><%= flash[:error] %></p>
+<h2> Categories</h2>
+
+<table class="category">
+  <tr style="background-color: #E9967A">
+    <th style="width: 250px;" >Category Name</th>
+    <th colspan="3">Actions</th>
+
+  </tr>
+
+<% @categories.each do |category| %>
+  <tr>
+    <td ><%= category.categoryName %></td>
+    <td><%= link_to 'Show', category, :class => 'contentLink' %></td>
+    <td><%= link_to 'Edit', edit_category_path(category), :class => 'contentLink' %></td>
+    <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure you want to delete this category?' }, :class => 'contentLink' %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Category', new_category_path, :class => 'contentLink' %>

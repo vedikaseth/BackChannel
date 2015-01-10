@@ -1,0 +1,10 @@
+<p><%= flash[:notice] %> </p>
+<h2> Admin Functionalities  </h2>
+<br>
+ <%= link_to 'Show all users',{:controller=> :users},:class => "contentLink" %>
+<br><br>
+<%= link_to 'Show all Posts',{ :controller => :posts}, :class => "contentLink" %>
+<br><br>
+<%= link_to 'Show all Categories', {:controller => :categories},:class => "contentLink" %>
+<br><br>
+<%= link_to 'Generate Report', {:controller => 'posts', :action => 'report'},:class => "contentLink" %>

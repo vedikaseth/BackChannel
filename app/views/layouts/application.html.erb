@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BackChannelApp</title>
+  <%= favicon_link_tag 'favicon.ico' %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tags %>
+</head>
+<body id='body'>
+<table style="width: 100%;height: 100%;" border="0px" >
+
+<tr id = 'header' >
+  <td>
+    <table style="width: 100%">
+       <tr>
+       <td style="text-align: left;">
+    <%=image_tag("logo.jpg")%>
+       </td>
+         <td style="font-size: 20px;text-align: left">
+           Live Question
+         </td >  <td style="text-align: right;">
+
+             <%= form_tag :controller => 'posts', :action => 'index' do %>
+                 Search Post:
+                 <%= text_field_tag :search_text, params[:search_text]   %>  By:
+                 <select name="search_by">
+                   <option>Category</option>
+                   <option>Content</option>
+                   <option>Tag</option>
+                   <option>User</option>
+                 </select>
+                 <%= submit_tag "Search"  %>
+              <% end %>
+
+
+
+         <% if !session[:userName].nil? %>
+
+    Hello <%= session[:fname] %>
+    <div style="display: inline-block">
+      <%= form_tag "/login/index" do%>
+          <%= image_submit_tag "home.jpg", :class => 'homeImage' %>
+      <% end %>
+
+    </div>
+    <div style="display: inline-block">
+      <%= form_tag "/login/logout" do%>
+          <%= image_submit_tag "logout.jpg", :class => 'logoutImage' %>
+      <% end %>
+    </div>
+    <% end %>   <%= link_to 'Show all Posts',{ :controller => :posts}%>
+         </td>
+       </tr>
+    </table>
+  </td>
+</tr>
+<tr id='content'>
+  <td >
+    <%= yield %>
+  </td>
+</tr>
+<tr id='footer'>
+  <td style="text-align: right">
+    <a href='https://piazza.com/ncsu/fall2013/cscece517/home' target = "new">Piazza</a> &nbsp;
+    <a href='https://www.webassign.net/ncsu/login.html' target = "new">WebAssign</a>   &nbsp;
+    <a href='http://wiki.expertiza.ncsu.edu/index.php/Main_Page' target = "new">Wiki</a>  &nbsp;
+    <a href='http://expertiza.ncsu.edu/' target = "new">Expertiza</a>    &nbsp;
+  </td>
+</tr>
+</table>
+</body>
+</html>

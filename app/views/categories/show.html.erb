@@ -1,0 +1,11 @@
+
+<p id="notice"><%= flash[:notice] %> </p>
+<p id="error"><%= flash[:error] %></p>
+<p>
+  <b>Category Name:</b>
+  <%= @category.categoryName %>
+</p>
+
+
+<%= link_to 'Edit', edit_category_path(@category), :class => 'contentLink' %> |
+<%= link_to 'Back', categories_path, :class => 'contentLink' %>
